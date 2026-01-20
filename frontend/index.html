@@ -17,15 +17,13 @@
       --border: #1f2933;
     }
 
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
       margin: 0;
       min-height: 100vh;
       background: radial-gradient(1200px 600px at top, #1e293b, var(--bg));
-      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      font-family: Inter, system-ui, sans-serif;
       color: var(--text);
       display: flex;
       align-items: center;
@@ -44,11 +42,9 @@
     }
 
     h1 {
-      margin: 0;
       text-align: center;
       font-size: 32px;
       font-weight: 700;
-      letter-spacing: -0.5px;
     }
 
     .subtitle {
@@ -58,9 +54,7 @@
       font-size: 15px;
     }
 
-    .section {
-      margin-top: 28px;
-    }
+    .section { margin-top: 28px; }
 
     label {
       display: block;
@@ -77,19 +71,9 @@
       padding: 12px 14px;
       color: var(--text);
       font-size: 14px;
-      outline: none;
-      transition: border 0.2s, box-shadow 0.2s;
     }
 
-    textarea {
-      min-height: 80px;
-      resize: vertical;
-    }
-
-    input:focus, textarea:focus {
-      border-color: var(--accent);
-      box-shadow: 0 0 0 1px var(--accent-soft);
-    }
+    textarea { min-height: 80px; resize: vertical; }
 
     .btn {
       margin-top: 32px;
@@ -102,19 +86,11 @@
       background: linear-gradient(135deg, var(--accent), var(--accent-soft));
       color: white;
       cursor: pointer;
-      transition: transform 0.15s, box-shadow 0.15s, opacity 0.15s;
-    }
-
-    .btn:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 10px 30px rgba(99,102,241,0.35);
     }
 
     .btn:disabled {
       opacity: 0.6;
       cursor: not-allowed;
-      transform: none;
-      box-shadow: none;
     }
 
     .error {
@@ -132,34 +108,19 @@
       border: 1px solid var(--border);
     }
 
-    .result h3 {
-      margin-top: 0;
-      font-size: 18px;
-    }
-
     .badge {
-      display: inline-block;
       padding: 4px 10px;
       border-radius: 999px;
       font-size: 12px;
-      font-weight: 600;
       margin-left: 8px;
       background: rgba(99,102,241,0.15);
       color: var(--accent-soft);
     }
 
     ul {
-      margin: 12px 0 0;
+      margin-top: 10px;
       padding-left: 18px;
       color: var(--muted);
-      font-size: 14px;
-    }
-
-    .confidence {
-      margin-top: 10px;
-      font-size: 14px;
-      color: var(--success);
-      font-weight: 600;
     }
 
     footer {
@@ -175,26 +136,26 @@
   <div class="container">
     <h1>Decision Stack AI</h1>
     <p class="subtitle">
-      A structured AI agent that reasons step-by-step using a stack-based approach.
+      A structured AI agent that reasons step-by-step.
     </p>
 
     <div class="section">
-      <label>What decision are you trying to make?</label>
+      <label>Decision</label>
       <input id="problem" placeholder="Should I accept a remote job offer?" />
     </div>
 
     <div class="section">
-      <label>What are the advantages?</label>
+      <label>Pros</label>
       <textarea id="pros" placeholder="One point per line"></textarea>
     </div>
 
     <div class="section">
-      <label>What are the drawbacks?</label>
+      <label>Cons</label>
       <textarea id="cons" placeholder="One point per line"></textarea>
     </div>
 
     <div class="section">
-      <label>Any constraints or requirements?</label>
+      <label>Constraints</label>
       <textarea id="constraints" placeholder="One point per line"></textarea>
     </div>
 
@@ -204,85 +165,71 @@
     <div id="result" class="result" style="display:none;"></div>
 
     <footer>
-      Built with PydanticAI · Reliable fallback · Clean APIs
+      Built with PydanticAI · FastAPI · Clean APIs
     </footer>
   </div>
 
-  <script>
-    async function submitDecision() {
-      const btn = document.getElementById("btn");
-      const resultDiv = document.getElementById("result");
-      const errorDiv = document.getElementById("error");
+<script>
+  // ✅ CHANGE BACKEND URL ONLY HERE IF NEEDED
+  const API_URL = "https://decision-stack-ai-zwh.onrender.com/decide";
 
-      errorDiv.textContent = "";
-      resultDiv.style.display = "none";
+  async function submitDecision() {
+    const btn = document.getElementById("btn");
+    const errorDiv = document.getElementById("error");
+    const resultDiv = document.getElementById("result");
 
-      const problem = document.getElementById("problem").value.trim();
+    errorDiv.textContent = "";
+    resultDiv.style.display = "none";
 
-      if (problem.length < 10) {
-        errorDiv.textContent = "Please describe your decision more clearly.";
-        return;
-      }
+    const problem = document.getElementById("problem").value.trim();
+    const pros = document.getElementById("pros").value.split("\n").filter(x => x.trim());
+    const cons = document.getElementById("cons").value.split("\n").filter(x => x.trim());
+    const constraints = document.getElementById("constraints").value.split("\n").filter(x => x.trim());
 
-      const prosList = document.getElementById("pros").value
-        .split("\n")
-        .filter(x => x.trim() !== "");
-
-      if (prosList.length === 0) {
-        errorDiv.textContent = "Please add at least one meaningful advantage.";
-        return;
-      }
-
-      btn.disabled = true;
-      btn.textContent = "Thinking...";
-
-      try {
-        const response = await fetch("http://127.0.0.1:8000/decide", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            problem: problem,
-            pros: prosList,
-            cons: document.getElementById("cons").value
-              .split("\n")
-              .filter(x => x.trim() !== ""),
-            constraints: document.getElementById("constraints").value
-              .split("\n")
-              .filter(x => x.trim() !== "")
-          })
-        });
-
-        if (!response.ok) throw new Error("Backend error");
-
-        const data = await response.json();
-
-        resultDiv.innerHTML = `
-          <h3>Recommendation</h3>
-          <p><strong>${data.recommendation}</strong></p>
-
-          <p>
-            Risk Level
-            <span class="badge">${data.risk_level}</span>
-          </p>
-
-          <div class="confidence">
-            Confidence: ${Math.round(data.confidence * 100)}%
-          </div>
-
-          <h4>Reasoning Steps</h4>
-          <ul>
-            ${data.reasoning_stack.map(step => `<li>${step}</li>`).join("")}
-          </ul>
-        `;
-
-        resultDiv.style.display = "block";
-      } catch {
-        errorDiv.textContent = "Something went wrong. Please try again.";
-      }
-
-      btn.disabled = false;
-      btn.textContent = "Analyze Decision";
+    if (problem.length < 10) {
+      errorDiv.textContent = "Please explain the decision clearly.";
+      return;
     }
-  </script>
+
+    if (pros.length === 0) {
+      errorDiv.textContent = "Add at least one pro.";
+      return;
+    }
+
+    btn.disabled = true;
+    btn.textContent = "Thinking...";
+
+    try {
+      const res = await fetch(API_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ problem, pros, cons, constraints })
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.detail || "Backend error");
+      }
+
+      resultDiv.innerHTML = `
+        <h3>Recommendation</h3>
+        <p><strong>${data.recommendation}</strong></p>
+        <p>Risk Level <span class="badge">${data.risk_level}</span></p>
+        <div><strong>Confidence:</strong> ${Math.round(data.confidence * 100)}%</div>
+        <h4>Reasoning</h4>
+        <ul>${(data.reasoning_stack || []).map(r => `<li>${r}</li>`).join("")}</ul>
+      `;
+
+      resultDiv.style.display = "block";
+    } catch (err) {
+      errorDiv.textContent = err.message || "Something went wrong.";
+    }
+
+    btn.disabled = false;
+    btn.textContent = "Analyze Decision";
+  }
+</script>
 </body>
 </html>
+
