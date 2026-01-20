@@ -3,3 +3,15 @@ backend/.env
 venv/
 .venv/
 __pycache__/
+# env files
+.env
+backend/.env
+
+# python
+__pycache__/
+*.pyc
+venv/
+.venv/
+
+# OS
+.DS_Store

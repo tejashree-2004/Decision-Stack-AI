@@ -1,12 +1,12 @@
+from dotenv import load_dotenv
+load_dotenv()
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from models import DecisionInput, DecisionOutput
 from service import make_decision
 
-app = FastAPI(
-    title="Decision Stack AI",
-    version="1.0.0"
-)
+app = FastAPI(title="Decision Stack AI")
 
 app.add_middleware(
     CORSMiddleware,
