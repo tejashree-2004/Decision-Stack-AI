@@ -1,28 +1,21 @@
 from agent import agent
 from models import DecisionInput, DecisionOutput
 
-
 def is_meaningful(text: str) -> bool:
     return len(text.split()) >= 3
 
-
 async def make_decision(data: DecisionInput) -> DecisionOutput:
-    # ✅ Backend semantic guard
     if not is_meaningful(data.problem):
         return DecisionOutput(
-            recommendation="Please provide a clearer and more meaningful decision description.",
-            reasoning_stack=[
-                "Input validation failed",
-                "Decision description too short or unclear"
-            ],
+            recommendation="Please provide a clearer decision description.",
+            reasoning_stack=["Input validation failed"],
             risk_level="High",
             confidence=0.0
         )
 
     try:
-        response = await agent.run(
-            f"""
-Decision Problem:
+        result = await agent.run(f"""
+Decision:
 {data.problem}
 
 Pros:
@@ -33,19 +26,13 @@ Cons:
 
 Constraints:
 {data.constraints}
-"""
-        )
-        return response.data
+""")
+        return result.data
 
-    except Exception as e:
-        print("⚠️ AI error, using fallback:", e)
-
+    except Exception:
         return DecisionOutput(
-            recommendation="Unable to analyze this decision meaningfully. Please add more context.",
-            reasoning_stack=[
-                "Fallback triggered",
-                "Insufficient context detected"
-            ],
+            recommendation="Unable to analyze. Please add more context.",
+            reasoning_stack=["Fallback triggered"],
             risk_level="High",
             confidence=0.2
         )

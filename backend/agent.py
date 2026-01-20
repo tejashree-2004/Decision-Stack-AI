@@ -1,27 +1,33 @@
-from pydantic_ai import Agent
-from models import DecisionOutput
+import os
 from dotenv import load_dotenv
+from pydantic_ai import Agent
+from pydantic_ai.models.openai import OpenAIModel
+from models import DecisionOutput
 
 load_dotenv()
 
+model = OpenAIModel(
+    model_name="meta-llama/llama-3-8b-instruct",
+    base_url="https://openrouter.ai/api/v1",
+    api_key=os.getenv("OPENROUTER_API_KEY"),
+)
+
 agent = Agent(
-    model="gpt-4.1-mini",
+    model=model,
     output_type=DecisionOutput,
     system_prompt="""
-You are an AI decision-making assistant.
+You are a decision-making AI agent.
 
-You MUST follow a STACK-BASED reasoning approach:
+Follow a STACK-BASED reasoning approach:
+1. Push pros
+2. Push cons
+3. Push constraints
+4. Analyze by popping items
+5. Return a structured recommendation
 
-1. Push all PROS onto a stack
-2. Push all CONS onto the stack
-3. Push CONSTRAINTS onto the stack
-4. Pop items one by one to analyze
-5. Based on popped analysis, give a final recommendation
-
-Rules:
-- Be practical and realistic
-- Do NOT give vague answers
-- Always return structured output
+Reject meaningless input.
+Always return valid structured output.
 """
 )
+
 
