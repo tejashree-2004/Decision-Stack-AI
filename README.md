@@ -1,139 +1,142 @@
-🚀 Decision-Stack-AI
+# Decision-Stack-AI
 
-Decision-Stack-AI is a full-stack artificial intelligence project designed to help with decision-making workflows.
-The project contains both a backend (API/services) and a frontend (user interface) to deliver an integrated decision-intelligent platform.
+Decision-Stack-AI is a full-stack AI-driven decision support system that integrates a backend service layer with a frontend interface to assist users in structured decision-making workflows.
 
-📌 Table of Contents
+The project follows a modular architecture, separating frontend and backend responsibilities to ensure scalability, maintainability, and ease of development.
 
-About
+---
 
-Features
-Tech Stack
-Getting Started
-Prerequisites
-Installation
-Running Locally
+## Table of Contents
 
-Folder Structure
+- [Overview](#overview)
+- [Project Structure](#project-structure)
+- [Features](#features)
+- [Technology Stack](#technology-stack)
+- [Installation](#installation)
+- [Running the Project](#running-the-project)
+- [Usage](#usage)
+- [Future Enhancements](#future-enhancements)
+- [Contributing](#contributing)
+- [License](#license)
 
-Usage
+---
 
-Contributing
+## Overview
 
-License
+Decision-Stack-AI is designed to demonstrate the integration of artificial intelligence logic with a modern web application.  
+The backend handles decision logic and data processing, while the frontend provides an interactive and user-friendly interface.
 
-Contact
+---
 
-📖 About
+## Project Structure
 
-Decision-Stack-AI is a full-stack project aimed at building an AI-driven decision support platform.
-It combines intelligent algorithms on the backend with an interactive frontend interface to allow users to make efficient and explainable decisions.
-
-⭐ Features
-
-✔ Backend API for AI logic and decision computation
-✔ Frontend web app for user interaction
-✔ Modular architecture for extensibility
-✔ Easy to set up and run locally
-✔ Responsive UI (assuming a modern frontend framework)
-✔ Integration between frontend and backend components
-
-🛠 Tech Stack
-Backend
-
-Language: Python (likely FastAPI/Flask/Django or similar)
-
-AI/ML libraries (where applicable)
-
-Database (configurable)
-
-Frontend
-
-Modern web framework (likely React / Vue / Angular)
-
-Client-server API integration
-
-(Replace the above with your exact frameworks after checking your code)
-
-🧩 Getting Started
-🔧 Prerequisites
-
-Before you begin, ensure you have the following installed:
-
-# Node.js for frontend
-node --version
-
-# Backend dependencies environment
-python --version
+Decision-Stack-AI/
+│
+├── backend/ # Backend server and AI logic
+├── frontend/ # Frontend user interface
+├── .gitignore
+└── README.md
 
 
-You may also need:
+---
 
-npm / yarn
+## Features
 
-virtualenv / Python venv
+- Modular backend architecture
+- Interactive frontend interface
+- Backend–frontend API communication
+- Scalable project structure
+- Clean separation of concerns
 
-📥 Installation
-1️⃣ Clone the Repository
+---
+
+## Technology Stack
+
+### Backend
+- Python
+- REST API architecture
+- AI / decision logic modules
+
+### Frontend
+- JavaScript
+- Modern frontend framework
+- Responsive UI design
+
+---
+
+## Installation
+
+### Prerequisites
+
+Ensure the following are installed on your system:
+
+- Python 3.x
+- Node.js and npm
+- Git
+
+---
+
+### Clone the Repository
+
+```bash
 git clone https://github.com/tejashree-2004/Decision-Stack-AI.git
 cd Decision-Stack-AI
 
-🔌 Backend Setup
+
+Running the Project
+Backend Setup
+
 cd backend
+
 # Create virtual environment
 python -m venv venv
-source venv/bin/activate   # (Unix/Mac)
-venv\Scripts\activate      # (Windows)
+
+# Activate virtual environment
+# Windows
+venv\Scripts\activate
+# macOS/Linux
+source venv/bin/activate
 
 # Install dependencies
 pip install -r requirements.txt
 
-# Start backend server
-python app.py              # or uvicorn main:app --reload
+# Run backend server
+python main.py
 
-🌐 Frontend Setup
+
+Frontend Setup
 cd frontend
 
-# install dependencies
-npm install   # or yarn install
+# Install dependencies
+npm install
 
-# start frontend dev server
-npm run dev   # or yarn dev
+# Start frontend development server
+npm run dev
 
-📁 Folder Structure
-Decision-Stack-AI/
-├── backend/         # API, AI logic, server code
-├── frontend/        # UI code, web app
-├── .gitignore
-└── README.md
 
-▶️ Usage
+Usage
 
-Once both backend and frontend servers are running:
+-Start the backend server.
+-Start the frontend server.
+-Open the frontend URL in your browser.
+-Interact with the application to process decision-making workflows using the AI logic.
 
-Open http://localhost:3000 (or configured port) in your browser.
+Future Enhancements
 
-Interact with the UI to plan or evaluate decisions.
+-Advanced AI decision models
+-User authentication and authorization
+-Database integration
+-Deployment using Docker or cloud services
+-Improved UI/UX design
 
-The frontend will call backend routes for processing AI decisions.
+Contributing
 
-Update this section with specific endpoints and UI instructions once finalized.
+Contributions are welcome.
 
-🤝 Contributing
+Steps to contribute:
 
-Contributions are welcome!
-To contribute:
-
-Fork the project
-
-Create a feature branch (git checkout -b feature/XYZ)
-
-Commit your changes (git commit -m "Add XYZ")
-
-Push (git push origin feature/XYZ)
-
-Open a Pull Request
-
-📄 License
-
-This project does not include a license file yet — consider adding one (e.g., MIT, Apache-2.0) so others can legally use and contribute.
+1.Fork the repository
+2.Create a new branch
+3.Commit your changes
+4.Push to your fork
+5.Create a Pull Request
